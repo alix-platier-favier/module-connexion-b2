@@ -3,15 +3,19 @@
 require_once 'User.php';
 require_once 'conn.php';
 
+define("SERVERNAME", "localhost:3306");
+define("USERNAME", "root");
+define("PASSWORD", "Phpcdlamerd*159753!");
+define("DBNAME", "moduleconnexionb2");
+
 class MyPdo
 {
     private $connection;
 
     public function __construct()
     {
-        global $servername, $dbname, $username, $password;
 
-        $this->connection = new PDO("mysql:host=" . $servername . ";dbname=" . $dbname, $username, $password);
+        $this->connection = new PDO("mysql:host=" . SERVERNAME . ";dbname=" . DBNAME, USERNAME, PASSWORD);
         $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
