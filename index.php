@@ -18,7 +18,18 @@
         <div class="logo">
             <a href="index.php">
             <img src="img\LogoW.png" alt="Logo" height="150px"></a>
-            <button class="btn" onclick="location.href='loginSignup.php'">Login</button>
+
+            <!-- MENU -->
+            
+                <?php if (!isset($_SESSION['login'])) { ?>
+                    <button class="btn" onclick="location.href='index.php'">Home</button>
+                    <button class="btn" onclick="location.href='loginSignup.php'">Login</button>
+
+                <?php } else { ?>
+                    <button class="btn" onclick="location.href='index.php'">Home</button>
+                    <button class="btn" onclick="location.href='profile.php'"><?php $_SESSION['login'] ?></button>
+                    <button class="btn" onclick="location.href='disconnect.php'">Disconnect</button>
+                <?php } ?>
         </div>
     </div>
     <div class="container">

@@ -1,8 +1,15 @@
-<?php require_once 'conn.php';
+<?php
+require_once 'conn.php';
 require_once 'MyPdo.php';
+require_once 'App.php';
+
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+$app = new App;
 
 try {
-    
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -10,7 +17,6 @@ try {
         $login = $_POST['login'];
         $password = $_POST['password'];
 
-        
         $stmt = $conn->prepare("SELECT * FROM user WHERE login = :login");
         $stmt->bindParam(':login', $login);
         $stmt->execute();
@@ -19,9 +25,7 @@ try {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $hashed_password = $row['password'];
 
-            
             if (password_verify($password, $hashed_password)) {
-    
                 $_SESSION['loggedin'] = true;
                 $_SESSION['login'] = $row['login'];
                 $_SESSION['firstname'] = $row['firstname'];
@@ -30,7 +34,7 @@ try {
                 if ($_SESSION['login'] === 'admin') {
                     header("Location: admin.php");
                 } else {
-                    header("Location: profil.php");
+                    header("Location: index.php");
                 }
                 exit;
             } else {
@@ -38,30 +42,24 @@ try {
             }
         } else {
             echo "<script>alert('Incorrect login');</script>";
-
         }
     }
-} catch(PDOException $e) {
+} catch (PDOException $e) {
     echo "<script>alert('Error: " . $e->getMessage() . "');</script>";
 }
 
 $conn = null;
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmpwd'])) {
     $login = $_POST['login'];
     $firstname = $_POST['firstname'];
     $lastname = $_POST['lastname'];
     $password = $_POST['password'];
-
-    $pdo = new MyPdo();
-    $pdo->addUser($login, $firstname, $lastname, $password);
-
-    header('Location: loginSignup.php');
-    exit;
+    $confirmPwd = $_POST['confirmpwd'];
+    if ($app->subscribe($login, $firstname, $lastname, $password, $confirmPwd)) {
+    }
 }
 ?>
-
-
 
 <!-------------------------------------------------------------------------------------------------------------------------------->
 
@@ -87,7 +85,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="logo">
             <a href="index.php">
             <img src="img\LogoW.png" alt="Logo" height="150px"></a>
-            <button class="btn" onclick="location.href='loginSignup.php'">Login</button>
+                <?php if (!isset($_SESSION['login'])) { ?>
+                    <button class="btn" onclick="location.href='index.php'">Home</button>
+                    <button class="btn" onclick="location.href='loginSignup.php'">Login</button>
+
+                <?php } else { ?>
+                    <button class="btn" onclick="location.href='index.php'">Home</button>
+                    <button class="btn" onclick="location.href='profile.php'">Modify my Profile</button>
+                    <button class="btn" onclick="location.href='disconnect.php'">Disconnect</button>
+                <?php } ?>
         </div>
         <div class="container">
         <div class="sun">
@@ -109,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="slider-tab"></div>
         </div>
         <div class="form-inner">
-            <form action="loginSingup.php" method="post" class="login">
+            <form action="" method="post" class="login">
                 <div class="field">
                     <input type="text" placeholder="Username" name="login" required>
                 </div>
@@ -123,6 +129,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="signup-link">
                     Not a member? <a href="">Signup now</a>
                 </div>
+                <?php if (isset($app->msgError)) {
+                echo $app->msgError;
+                } ?>
             </form>
             <form action="" method="post" class="signup">
                 <div class="field">
@@ -138,7 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <input type="password" placeholder="Password" name="password" required>
                 </div>
                 <div class="field">
-                    <input type="password" placeholder="Confirm Password" name="password" required>
+                    <input type="password" placeholder="Confirm Password" name="confirmpwd" required>
                 </div>
                 <div class="checkbox">
                     <label><input type="checkbox" required>
@@ -148,6 +157,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="btn-layer"></div>
                     <input type="submit" value="Signup">
                 </div>
+                <?php if (isset($app->msgError)) {
+                echo $app->msgError;
+                } ?>
             </form>
         </div>
     </div>

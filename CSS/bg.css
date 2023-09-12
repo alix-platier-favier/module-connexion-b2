@@ -32,6 +32,7 @@ body {
 }
 
 .topnav {
+    z-index: 0;
     display: flex;
     flex-direction: column; 
     position: absolute;
@@ -42,14 +43,15 @@ body {
 .topnav .btn {
     display: flex;
     justify-content: left;
-    margin-left: 1.5em;
     font-weight: 500;
     font-size: 1.2em;
     color: var(--color-white);
-    background: -webkit-linear-gradient(left, var(--color-bg), var(--color-dark), var(--color-dark-variant));
+    background: -webkit-linear-gradient(left, var(--color-dark-variant), var(--color-dark), var(--color-bg));
     border: none;
     border-radius: 5px;
     padding: 0.2em 1em;
+    margin: 1em;
+    margin-left: 1.5em;
 }
 
 .topnav .btn:hover {
@@ -61,8 +63,8 @@ body {
 
 .container {
     font-size: 10px;
-    width: 60em; 
-    height: 60em; 
+    width: 20em; 
+    height: 20em; 
     position: fixed;
     top: 50%;
     left: 50%;
@@ -115,8 +117,6 @@ span:nth-child(3) {
 }
 
 .earth {
-    top: 10em; 
-    left: 10em; 
     width: 60em; 
     height: 60em; 
     animation: orbit 36.5s linear infinite;

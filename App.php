@@ -6,6 +6,7 @@ class App
 {
     private $pdo;
     public $msgError;
+    public $msgSuccess;
 
     public function __construct()
     {
@@ -32,15 +33,42 @@ class App
         }
 
         if(password_verify($password, $user->getHashedPwd())) {
+            $_SESSION['loggedin'] = true;
             $_SESSION['id'] = $user->getId();
             $_SESSION['login'] = $user->getLogin();
-            $_SESSION['firstname'] = $user->getFirstname();
-            $_SESSION['lastname'] = $user->getLastname();
             return true;
         } else {
             $this->msgError = "<p id='msgerror'>Error : Incorrect Password </p>";
             return false;
         } 
+    }
+
+    public function subscribe($login, $firstname, $lastname, $password, $confirmPwd)
+    {
+        if ($password != $confirmPwd) {
+            $this->msgError = "<p id='msgerror'>Error : Passwords do not match </p>";
+            return false;
+        }
+        if (
+            !empty($password) && (strlen($password) <8 || //length
+            !preg_match('/[a-zA-Z]/', $password) || //chars
+            !preg_match('/\d/', $password) || //nmbrs
+            !preg_match('/[^a-zA-Z\d]/', $password) //specials chars
+            )
+        ) {
+            $this->msgError = "<p id='msgerror'>Error : Password must contain at least 8 characters, 1 uppercase letter, 1 lowercase letter and 1 number </p>";
+            return false;
+        }
+        try {
+            if ($this->pdo->getUserbyLogin($login) !== null) {
+                $this->msgError = "<p id='msgerror'>Error : " . $login . " is already taken </p>";
+                return false;
+            }
+            $this->pdo->addUser($login, $firstname, $lastname, $password);
+        } catch (PDOException $e) {
+            $this->msgError = "<p id='msgerror'>Error : " . $e->getMessage() . "</p>";
+            return false;
+        }
     }
 
     public function updateProfile($newLogin, $oldPwd, $newPwd, $confirmPwd)
