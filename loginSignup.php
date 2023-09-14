@@ -38,14 +38,13 @@ try {
                 }
                 exit;
             } else {
-                echo "<script>alert('Incorrect password');</script>";
+                $app->msgError = "<p id='msgerror'>Incorrect</p>";
             }
-        } else {
-            echo "<script>alert('Incorrect login');</script>";
-        }
+    } else {
+        $app->msgError = "<p id='msgerror' style='color: green;'>Login with success!</p>";
     }
-} catch (PDOException $e) {
-    echo "<script>alert('Error: " . $e->getMessage() . "');</script>";
+}} catch (PDOException $e) {
+    $app->msgError = "<p id='msgerror'>" . $e->getMessage() . "</p>";
 }
 
 $conn = null;
@@ -85,15 +84,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmpwd'])) {
         <div class="logo">
             <a href="index.php">
             <img src="img\LogoW.png" alt="Logo" height="150px"></a>
-                <?php if (!isset($_SESSION['login'])) { ?>
+            <?php 
+                if (!isset($_SESSION['login'])) { 
+                    ?>
                     <button class="btn" onclick="location.href='index.php'">Home</button>
                     <button class="btn" onclick="location.href='loginSignup.php'">Login</button>
-
-                <?php } else { ?>
+                <?php 
+                } elseif ($_SESSION['login'] === 'admiN1337$') {
+                    ?>
                     <button class="btn" onclick="location.href='index.php'">Home</button>
-                    <button class="btn" onclick="location.href='profile.php'">Modify my Profile</button>
+                    <button class="btn" onclick="location.href='profile.php'"><?php echo $_SESSION['login']; ?></button>
+                    <button class="btn" onclick="location.href='admin.php'">Admin Panel</button>
                     <button class="btn" onclick="location.href='disconnect.php'">Disconnect</button>
-                <?php } ?>
+                    <?php
+                } else { ?>
+                    <button class="btn" onclick="location.href='index.php'">Home</button>
+                    <button class="btn" onclick="location.href='profile.php'"><?php echo $_SESSION['login']; ?></button>
+                    <button class="btn" onclick="location.href='disconnect.php'">Disconnect</button>
+                    <?php                    
+                }
+            ?>
         </div>
         <div class="container">
         <div class="sun">
@@ -129,9 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmpwd'])) {
                 <div class="signup-link">
                     Not a member? <a href="">Signup now</a>
                 </div>
-                <?php if (isset($app->msgError)) {
-                echo $app->msgError;
-                } ?>
+                <?php if (isset($app->msgError)) {echo $app->msgError;} ?>
             </form>
             <form action="" method="post" class="signup">
                 <div class="field">
@@ -144,7 +152,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmpwd'])) {
                     <input type="text" placeholder="Last Name" name="lastname" required>
                 </div>
                 <div class="field">
-                    <input type="password" placeholder="Password" name="password" required>
+                    <i class="fas fa-eye-slash show_hide"></i>
+                    <input spellcheck="false" type="password" placeholder="Password" name="password" required>
+                </div>
+                <div class="indicator">
+                    <div class="icon-text">
+                        <i class="fas fa-exclamation-circle error_icon"></i>
+                        <h6 class="text"></h6>
+                    </div>
                 </div>
                 <div class="field">
                     <input type="password" placeholder="Confirm Password" name="confirmpwd" required>
@@ -157,9 +172,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmpwd'])) {
                     <div class="btn-layer"></div>
                     <input type="submit" value="Signup">
                 </div>
-                <?php if (isset($app->msgError)) {
-                echo $app->msgError;
-                } ?>
+                <?php if (isset($app->msgError)) {echo $app->msgError;} ?>
             </form>
         </div>
     </div>

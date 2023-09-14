@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,18 +21,27 @@
         <div class="logo">
             <a href="index.php">
             <img src="img\LogoW.png" alt="Logo" height="150px"></a>
-
             <!-- MENU -->
-            
-                <?php if (!isset($_SESSION['login'])) { ?>
+            <?php 
+                if (!isset($_SESSION['login'])) { 
+                    ?>
                     <button class="btn" onclick="location.href='index.php'">Home</button>
                     <button class="btn" onclick="location.href='loginSignup.php'">Login</button>
-
-                <?php } else { ?>
+                <?php 
+                } elseif ($_SESSION['login'] === 'admiN1337$') {
+                    ?>
                     <button class="btn" onclick="location.href='index.php'">Home</button>
-                    <button class="btn" onclick="location.href='profile.php'"><?php $_SESSION['login'] ?></button>
+                    <button class="btn" onclick="location.href='profile.php'"><?php echo $_SESSION['login']; ?></button>
+                    <button class="btn" onclick="location.href='admin.php'">Admin Panel</button>
                     <button class="btn" onclick="location.href='disconnect.php'">Disconnect</button>
-                <?php } ?>
+                    <?php
+                } else { ?>
+                    <button class="btn" onclick="location.href='index.php'">Home</button>
+                    <button class="btn" onclick="location.href='profile.php'"><?php echo $_SESSION['login']; ?></button>
+                    <button class="btn" onclick="location.href='disconnect.php'">Disconnect</button>
+                    <?php                    
+                }
+            ?>
         </div>
     </div>
     <div class="container">

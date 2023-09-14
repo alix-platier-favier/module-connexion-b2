@@ -42,7 +42,6 @@ body {
 
 .topnav .btn {
     display: flex;
-    justify-content: left;
     font-weight: 500;
     font-size: 1.2em;
     color: var(--color-white);
@@ -160,3 +159,11 @@ span:nth-child(3) {
         transform: rotate(360deg);
     }
 }
+
+
+
+
+
+
+
+
