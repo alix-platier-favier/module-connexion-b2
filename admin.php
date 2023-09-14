@@ -45,7 +45,7 @@ require_once 'conn.php';
                 }
             ?>
         </div>
-        <div class="container">
+        <div class="planet">
         <div class="sun">
             <span></span>
             <span></span>

@@ -22,23 +22,21 @@
 }
 
 body {
-    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: var(--color-bg);
-    overflow: hidden;
     margin: 0; 
 }
 
 .topnav {
-    z-index: 0;
     display: flex;
     flex-direction: column; 
     position: absolute;
     top: 0;
     left: 0;
 }
+
 
 .topnav .btn {
     display: flex;
@@ -60,7 +58,7 @@ body {
     transition: var(--transition);
 }
 
-.container {
+.planet {
     font-size: 10px;
     width: 20em; 
     height: 20em; 
@@ -157,6 +155,14 @@ span:nth-child(3) {
 @keyframes orbit {
     100% {
         transform: rotate(360deg);
+    }
+}
+
+
+@media (max-width: 768px) {
+
+    .container{
+    margin-top: 200px;
     }
 }
 

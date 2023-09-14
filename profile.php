@@ -97,7 +97,7 @@ $conn = null;
                 }
             ?>
         </div>
-        <div class="container">
+        <div class="planet">
         <div class="sun">
             <span></span>
             <span></span>

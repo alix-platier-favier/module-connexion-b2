@@ -105,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmpwd'])) {
                 }
             ?>
         </div>
-        <div class="container">
+        <div class="planet">
         <div class="sun">
             <span></span>
             <span></span>
@@ -152,14 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmpwd'])) {
                     <input type="text" placeholder="Last Name" name="lastname" required>
                 </div>
                 <div class="field">
-                    <i class="fas fa-eye-slash show_hide"></i>
-                    <input spellcheck="false" type="password" placeholder="Password" name="password" required>
-                </div>
-                <div class="indicator">
-                    <div class="icon-text">
-                        <i class="fas fa-exclamation-circle error_icon"></i>
-                        <h6 class="text"></h6>
-                    </div>
+                    <input type="password" placeholder="Password" name="password" required>
                 </div>
                 <div class="field">
                     <input type="password" placeholder="Confirm Password" name="confirmpwd" required>
