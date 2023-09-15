@@ -5,7 +5,7 @@ require_once 'conn.php';
 
 define("SERVERNAME", "localhost:3306");
 define("USERNAME", "root");
-define("PASSWORD", "Phpcdlamerd*159753!");
+define("PASSWORD", "");
 define("DBNAME", "moduleconnexionb2");
 
 class MyPdo

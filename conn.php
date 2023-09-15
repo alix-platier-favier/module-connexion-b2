@@ -2,7 +2,7 @@
 
 $servername ="localhost:3306";
 $username = "root";
-$password = "Phpcdlamerd*159753!";
+$password = "";
 $dbname = "moduleconnexionb2";
 
 session_start();
