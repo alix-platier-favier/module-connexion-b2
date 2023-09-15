@@ -41,7 +41,7 @@ try {
                 $app->msgError = "<p id='msgerror'>Incorrect</p>";
             }
     } else {
-        $app->msgError = "<p id='msgerror' style='color: green;'>Login with success!</p>";
+        $app->msgError = "<p id='msgerror'></p>";
     }
 }} catch (PDOException $e) {
     $app->msgError = "<p id='msgerror'>" . $e->getMessage() . "</p>";

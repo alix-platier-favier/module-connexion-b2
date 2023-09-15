@@ -20,6 +20,10 @@ try {
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     $hashedPassword = $user['password'];
 
+    if ($_SESSION['login'] === 'admiN1337$') {
+        $app->msgError = "<p id='msgerror'>You are not allowed to change the informations of 'Admin'.</p>";
+    }
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $oldPwd = $_POST['oldPwd'];
         $newPwd = $_POST['password'];
@@ -132,8 +136,12 @@ $conn = null;
                     <input type="password" placeholder="Confirm New Password" name="confirmPwd">
                 </div>
                 <div class="field btn">
-                    <div class="btn-layer"></div>
-                    <input type="submit" value="Save">
+                <div class="btn-layer"></div>
+                    <?php if ($_SESSION['login'] !== 'admiN1337$') { ?>
+                        <input type="submit" value="Save">
+                    <?php } else { ?>
+                        <input type="button" value="Save" disabled>
+                    <?php } ?>
                 </div>
                 <?php if (isset($app->msgError)) {echo $app->msgError;} ?>
             </form>
